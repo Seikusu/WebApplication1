@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebApplication1.Models.Person>
+
+@{
+    ViewBag.Title = "Daftar Orang";
+}
+
+<h2>Daftar Pegawai</h2>
+
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>Nama</th>
+        <th>Email</th>
+        <th>Alamat</th>
+        <th>Nomor Telepon</th>
+        <th>Aksi</th>
+    </tr>
+
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model) // Tidak perlu "@" sebelum foreach
+        {
+            <tr>
+                <td>@Html.ActionLink(item.Name, "Details", new { id = item.PersonID })</td>
+                <td>@item.Email</td>
+                <td>@item.Alamat</td>
+                <td>@item.NomorTelepon</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PersonID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PersonID })
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" class="text-center">Tidak ada data.</td>
+        </tr>
+    }
+</table>
+
+<p>
+    @Html.ActionLink("Tambah Orang Baru", "Create", null, new { @class = "btn btn-primary" })
+</p>
